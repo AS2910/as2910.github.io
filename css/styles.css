@@ -298,55 +298,8 @@ a:hover {
     background: linear-gradient(180deg, var(--bg) 0%, #f5f2e9 100%);
 }
 
-.issues {
-    margin: var(--space-5) 0 var(--space-4);
-    border-top: 1px solid var(--line);
-}
-
-.issue {
-    display: block;
-    padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--line);
-    text-decoration: none;
-    color: var(--ink);
-    transition: padding-left 200ms ease;
-}
-
-.issue:hover {
-    color: var(--ink);
-    padding-left: 8px;
-}
-
-.issue:hover .issue-title { color: var(--accent); }
-
-.issue-title {
-    font-family: var(--serif);
-    font-weight: 600;
-    font-size: 1.4rem;
-    line-height: 1.25;
-    margin: 0 0 6px;
-    color: var(--ink);
-    transition: color 160ms ease;
-}
-
-.issue-hook {
-    font-size: 1rem;
-    color: var(--ink-soft);
-    margin: 0 0 6px;
-    line-height: 1.55;
-}
-
-.issue-date {
-    font-size: 0.82rem;
-    color: var(--ink-mute);
-    margin: 0;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
 .subscribe-embed {
-    margin-top: var(--space-4);
+    margin-top: var(--space-5);
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: 0 1px 0 var(--line);
