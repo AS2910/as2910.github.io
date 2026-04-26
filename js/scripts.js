@@ -1,97 +1,51 @@
-/*!
-    Title: Dev Portfolio Template
-    Version: 1.2.1
-    Last Change: 08/27/2017
-    Author: Ryan Fitzgerald
-    Repo: https://github.com/RyanFitzgerald/devportfolio-template
-    Issues: https://github.com/RyanFitzgerald/devportfolio-template/issues
+(function () {
+    'use strict';
 
-    Description: This file contains all the scripts associated with the single-page
-    portfolio website.
-*/
+    var header = document.querySelector('.site-header');
+    var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    var sections = [];
 
-(function($) {
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var el = document.getElementById(id);
+        if (el && id !== 'top') sections.push({ id: id, el: el, link: link });
+    });
 
-    // Remove no-js class
-    $('html').removeClass('no-js');
+    function onScroll() {
+        var y = window.scrollY || window.pageYOffset;
+        if (header) header.classList.toggle('is-scrolled', y > 4);
 
-    // Animate to section when nav is clicked
-    $('header a').click(function(e) {
-
-        // Treat as normal link if no-scroll class
-        if ($(this).hasClass('no-scroll')) return;
-
-        e.preventDefault();
-        var heading = $(this).attr('href');
-        var scrollDistance = $(heading).offset().top;
-
-        $('html, body').animate({
-            scrollTop: scrollDistance + 'px'
-        }, Math.abs(window.pageYOffset - $(heading).offset().top) / 1);
-
-        // Hide the menu once clicked if mobile
-        if ($('header').hasClass('active')) {
-            $('header, body').removeClass('active');
+        var current = null;
+        var threshold = 120;
+        for (var i = 0; i < sections.length; i++) {
+            var top = sections[i].el.getBoundingClientRect().top;
+            if (top - threshold <= 0) current = sections[i];
         }
-    });
 
-    // Scroll to top
-    $('#to-top').click(function() {
-        $('html, body').animate({
-            scrollTop: 0
-        }, 500);
-    });
+        navLinks.forEach(function (l) { l.classList.remove('is-active'); });
+        if (current) {
+            document.querySelectorAll('.nav-links a[href="#' + current.id + '"]').forEach(function (l) {
+                l.classList.add('is-active');
+            });
+        }
+    }
 
-    // Scroll to first element
-    $('#lead-down span').click(function() {
-        var scrollDistance = $('#lead').next().offset().top;
-        $('html, body').animate({
-            scrollTop: scrollDistance + 'px'
-        }, 500);
-    });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    // Create timeline
-    $('#experience-timeline').each(function() {
+    if ('IntersectionObserver' in window) {
+        var revealTargets = document.querySelectorAll('.section, .hero-heading, .hero-sub, .hero-actions, .issue, .work-item');
+        revealTargets.forEach(function (el) { el.classList.add('reveal'); });
 
-        $this = $(this); // Store reference to this
-        $userContent = $this.children('div'); // user content
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-        // Create each timeline block
-        $userContent.each(function() {
-            $(this).addClass('vtimeline-content').wrap('<div class="vtimeline-point"><div class="vtimeline-block"></div></div>');
-        });
-
-        // Add icons to each block
-        $this.find('.vtimeline-point').each(function() {
-            $(this).prepend('<div class="vtimeline-icon"><i class="fa fa-map-marker"></i></div>');
-        });
-
-        // Add dates to the timeline if exists
-        $this.find('.vtimeline-content').each(function() {
-            var date = $(this).data('date');
-            if (date) { // Prepend if exists
-                $(this).parent().prepend('<span class="vtimeline-date">'+date+'</span>');
-            }
-        });
-
-    });
-
-    // Open mobile menu
-    $('#mobile-menu-open').click(function() {
-        $('header, body').addClass('active');
-    });
-
-    // Close mobile menu
-    $('#mobile-menu-close').click(function() {
-        $('header, body').removeClass('active');
-    });
-
-    // Load additional projects
-    $('#view-more-projects').click(function(e){
-        e.preventDefault();
-        $(this).fadeOut(300, function() {
-            $('#more-projects').fadeIn(300);
-        });
-    });
-
-})(jQuery);
+        revealTargets.forEach(function (el) { io.observe(el); });
+    }
+})();
