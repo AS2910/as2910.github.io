@@ -192,7 +192,7 @@ a:hover {
     color: var(--ink);
 }
 
-.hero-sub {
+.hero-intro {
     font-size: clamp(1.1rem, 2vw, 1.35rem);
     line-height: 1.55;
     color: var(--ink-soft);
@@ -200,11 +200,12 @@ a:hover {
     margin: 0 0 var(--space-4);
 }
 
-.hero-sub em {
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 500;
-    color: var(--ink);
+.hero-intro p {
+    margin: 0 0 1em;
+}
+
+.hero-intro p:last-child {
+    margin-bottom: 0;
 }
 
 .hero-actions {
@@ -291,12 +292,6 @@ a:hover {
 }
 
 .prose p:last-child { margin-bottom: 0; }
-
-.prose-lg p {
-    font-size: 1.15rem;
-    line-height: 1.75;
-    margin-bottom: var(--space-3);
-}
 
 .section-newsletter {
     background: linear-gradient(180deg, var(--bg) 0%, #f5f2e9 100%);
@@ -459,7 +454,6 @@ a:hover {
 }
 
 @media (max-width: 480px) {
-    .nav-links li:nth-child(3) { display: none; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .btn { width: 100%; }
 }

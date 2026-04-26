@@ -34,7 +34,7 @@
     onScroll();
 
     if ('IntersectionObserver' in window) {
-        var revealTargets = document.querySelectorAll('.section, .hero-heading, .hero-sub, .hero-actions, .work-item');
+        var revealTargets = document.querySelectorAll('.section, .hero-heading, .hero-intro, .hero-actions, .work-item');
         revealTargets.forEach(function (el) { el.classList.add('reveal'); });
 
         var io = new IntersectionObserver(function (entries) {
